@@ -1,0 +1,97 @@
+name: Refresh Posts
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'   # every 4 hours automatically
+  workflow_dispatch:          # manual trigger from GitHub Actions tab
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Fetch Blogger posts and generate posts.json
+        run: |
+          python3 - <<'EOF'
+          import urllib.request, json, html, re
+          from datetime import datetime
+
+          FEED = "https://veronicadietz.blogspot.com/feeds/posts/default?alt=json&max-results=500"
+
+          req = urllib.request.Request(FEED, headers={"User-Agent": "Mozilla/5.0"})
+          with urllib.request.urlopen(req, timeout=15) as r:
+              data = json.loads(r.read())
+
+          entries = data.get("feed", {}).get("entry", [])
+
+          def clean(text):
+              if not text: return ""
+              text = re.sub(r"<[^>]+>", "", text)
+              text = html.unescape(text)
+              return re.sub(r"\s+", " ", text).strip()
+
+          def trunc(text, n):
+              t = clean(text)
+              return t[:n].rstrip() + "..." if len(t) > n else t
+
+          def fmt_date(s):
+              if not s: return ""
+              try:
+                  d = datetime.fromisoformat(s[:19])
+                  return d.strftime("%b %-d, %Y")
+              except Exception:
+                  return s
+
+          def get_link(entry):
+              for l in entry.get("link", []):
+                  if l.get("rel") == "alternate":
+                      return l.get("href", "#")
+              return "#"
+
+          def get_tag(entry):
+              cats = entry.get("category", [])
+              terms = [c.get("term","") for c in cats if c.get("term")]
+              return ", ".join(terms[:2]) if terms else "Essay"
+
+          posts = []
+          for entry in entries:
+              posts.append({
+                  "title":   clean(entry.get("title", {}).get("$t", "")),
+                  "link":    get_link(entry),
+                  "pubDate": fmt_date(entry.get("published", {}).get("$t", "")),
+                  "desc":    trunc(entry.get("content", {}).get("$t") or entry.get("summary", {}).get("$t",""), 200),
+                  "tag":     get_tag(entry)
+              })
+
+          # Sort newest first
+          posts.sort(key=lambda p: p["pubDate"], reverse=True)
+
+          with open("posts.json", "w") as f:
+              json.dump(posts, f, ensure_ascii=False, indent=2)
+
+          print(f"Wrote {len(posts)} posts to posts.json")
+
+          # Generate sitemap.xml
+          today = datetime.utcnow().strftime("%Y-%m-%d")
+          sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
+          sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+          sitemap += f'  <url><loc>https://read.veronicadietz.com/</loc><lastmod>{today}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>\n'
+          sitemap += '</urlset>'
+          with open("sitemap.xml", "w") as f:
+              f.write(sitemap)
+
+          print("Wrote sitemap.xml")
+          EOF
+
+      - name: Commit changes if any
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add posts.json sitemap.xml
+          git diff --cached --quiet || git commit -m "chore: refresh posts.json"
+          git push
