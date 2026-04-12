@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Observer's Notebook — Read</title>
+  <meta name="description" content="Essays and observations from Veronica Dietz. Diagnostic thinking for identity-led founders." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23283618'/><text x='16' y='22' text-anchor='middle' font-size='18' font-family='serif' fill='%23C4500A'>V</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --orange: #C4500A;
+      --green: #283618;
+      --cream: #FAF7F2;
+      --cream-dark: #F0EBE3;
+      --text: #1a1a18;
+      --muted: #7a7468;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background: var(--cream-dark);
+      border-bottom: 3px solid var(--orange);
+      padding: 64px 32px 52px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 40%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 18px,
+        rgba(40,54,24,0.04) 18px,
+        rgba(40,54,24,0.04) 19px
+      );
+    }
+
+    .header-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      color: var(--green);
+      margin-bottom: 20px;
+    }
+
+    .header-desc {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.8;
+    }
+
+    .header-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .header-links a {
+      display: inline-block;
+      padding: 9px 18px;
+      border: 1px solid rgba(40,54,24,0.2);
+      border-radius: 2px;
+      color: var(--green);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .header-links a:hover {
+      background: rgba(40,54,24,0.06);
+      border-color: rgba(40,54,24,0.4);
+    }
+
+    /* ─── MAIN ─── */
+    main {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
+    }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      padding: 52px 0 24px;
+      border-bottom: 1px solid var(--cream-dark);
+      margin-bottom: 32px;
+    }
+
+    /* ─── FEATURED CARDS ─── */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    @media (min-width: 600px) {
+      .featured-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .featured-grid .card:first-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--cream-dark);
+      padding: 28px 28px 24px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(40,54,24,0.08);
+    }
+
+    .card.hero {
+      display: grid;
+    }
+
+    @media (min-width: 600px) {
+      .card.hero {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: start;
+        padding: 36px 36px 32px;
+      }
+    }
+
+    .card-tag {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: 1.2rem;
+      line-height: 1.35;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .card.hero .card-title {
+      font-size: clamp(1.3rem, 3vw, 1.75rem);
+    }
+
+    .card-date {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .card-cta {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .card-cta::after { content: ' →'; }
+
+    .new-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--green);
+      color: var(--cream);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    /* ─── ARCHIVE ─── */
+    .archive-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .archive-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      gap: 24px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--cream-dark);
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.15s;
+    }
+
+    .archive-item:first-child { border-top: 1px solid var(--cream-dark); }
+
+    .archive-item:hover .archive-title { color: var(--orange); }
+
+    .archive-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 1.4;
+      transition: color 0.15s;
+    }
+
+    .archive-date {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ─── LOADING / ERROR ─── */
+    .status {
+      padding: 60px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--cream-dark);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--green);
+      color: rgba(250,247,242,0.5);
+      text-align: center;
+      padding: 32px;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    footer a { color: var(--orange); text-decoration: none; }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-in {
+      animation: fadeIn 0.4s ease both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <p class="eyebrow">Veronica Dietz</p>
+      <h1>The Observer's<br><em>Notebook</em></h1>
+      <p class="header-desc">Essays on identity, strategy, and the structural issues underneath what feels like a business problem.</p>
+      <div class="header-links">
+        <a href="https://veronicadietz.blogspot.com/" target="_blank" rel="noopener">Read on Blogger</a>
+        <a href="https://veronicadietz.com" target="_blank" rel="noopener">veronicadietz.com</a>
+        <a href="https://listen.veronicadietz.com">Listen to the Podcast</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <p class="section-label">Recent Posts</p>
+    <div id="featured" class="featured-grid">
+      <div class="status"><div class="spinner"></div>Loading posts...</div>
+    </div>
+
+    <p class="section-label">All Posts</p>
+    <div id="archive" class="archive-list">
+      <div class="status">Loading archive...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year"></span> <a href="https://veronicadietz.com">Veronica Dietz</a> &mdash; VD Advisory Group</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ─── CONFIG ───────────────────────────────────────────────
+    // Blogger JSON feed — max-results=500 to get all posts
+    const BLOG_FEED = 'https://veronicadietz.blogspot.com/feeds/posts/default?alt=json&max-results=500';
+    // ─────────────────────────────────────────────────────────
+
+    function formatDate(str) {
+      const d = new Date(str);
+      if (isNaN(d)) return str;
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function truncate(text, max) {
+      if (!text) return '';
+      const clean = text.replace(/<[^>]*>/g, '').replace(/&[a-z#0-9]+;/gi, ' ').trim();
+      return clean.length > max ? clean.slice(0, max).trimEnd() + '...' : clean;
+    }
+
+    function getPostLink(entry) {
+      const links = entry.link || [];
+      const alt   = links.find(l => l.rel === 'alternate');
+      return alt ? alt.href : '#';
+    }
+
+    function getCategories(entry) {
+      const cats = entry.category || [];
+      return cats.slice(0, 2).map(c => c.term).join(', ') || 'Essay';
+    }
+
+    async function loadBlog() {
+      const featuredEl = document.getElementById('featured');
+      const archiveEl  = document.getElementById('archive');
+
+      try {
+        // Blogger JSON API works cross-origin directly (no proxy needed)
+        const res  = await fetch(BLOG_FEED);
+        const data = await res.json();
+        const entries = data.feed?.entry || [];
+
+        if (!entries.length) throw new Error('No posts found.');
+
+        // Sort by published date descending (they usually come sorted, but just in case)
+        entries.sort((a, b) => new Date(b.published.$t) - new Date(a.published.$t));
+
+        // ── FEATURED (top 3) ──────────────────────────────────
+        const top3 = entries.slice(0, 3);
+        let featuredHTML = '';
+
+        top3.forEach((entry, i) => {
+          const title   = entry.title?.$t || 'Untitled';
+          const link    = getPostLink(entry);
+          const pubDate = formatDate(entry.published?.$t || '');
+          const desc    = truncate(entry.content?.$t || entry.summary?.$t || '', 200);
+          const tag     = getCategories(entry);
+          const isNew   = i === 0;
+
+          if (i === 0) {
+            featuredHTML += `
+              <a class="card hero fade-in" href="${link}" target="_blank" rel="noopener">
+                ${isNew ? '<span class="new-badge">New</span>' : ''}
+                <div>
+                  <p class="card-tag">${tag}</p>
+                  <h2 class="card-title">${title}</h2>
+                  <p class="card-date">${pubDate}</p>
+                </div>
+                <div>
+                  <p class="card-desc">${desc}</p>
+                  <span class="card-cta">Read now</span>
+                </div>
+              </a>`;
+          } else {
+            featuredHTML += `
+              <a class="card fade-in" href="${link}" target="_blank" rel="noopener" style="animation-delay:${i * 0.08}s">
+                <p class="card-tag">${tag}</p>
+                <h3 class="card-title">${title}</h3>
+                <p class="card-date">${pubDate}</p>
+                <p class="card-desc">${truncate(desc, 130)}</p>
+                <span class="card-cta">Read</span>
+              </a>`;
+          }
+        });
+
+        featuredEl.innerHTML = featuredHTML;
+
+        // ── ARCHIVE (all remaining) ───────────────────────────
+        let archiveHTML = '';
+        entries.slice(3).forEach((entry) => {
+          const title   = entry.title?.$t || 'Untitled';
+          const link    = getPostLink(entry);
+          const pubDate = formatDate(entry.published?.$t || '');
+
+          archiveHTML += `
+            <a class="archive-item" href="${link}" target="_blank" rel="noopener">
+              <span class="archive-title">${title}</span>
+              <span class="archive-date">${pubDate}</span>
+            </a>`;
+        });
+
+        archiveEl.innerHTML = archiveHTML || '<p class="status">No archived posts yet.</p>';
+
+      } catch (err) {
+        const msg = `<p class="status">Could not load posts. <a href="https://veronicadietz.blogspot.com/" style="color:var(--orange)">Browse on Blogger</a></p>`;
+        featuredEl.innerHTML = msg;
+        archiveEl.innerHTML  = '';
+        console.error('Blog feed error:', err);
+      }
+    }
+
+    loadBlog();
+  </script>
+</body>
+</html>
